@@ -430,6 +430,13 @@ const items = [
         ru_name: 'Летучий голландец'
     },
     {
+        imageSrc: `${basePath}imgs/shoulder/skadi.webp`,
+        stats: { deff: 4, damage: 4, krit: 24, hpmax: 5, armourmax: 27, neoglysh: 20 },
+        upg: 'deff',
+        yellow: { luck: 2, neoglysh: 8, otrazh: 2 },
+        ru_name: 'Скади'
+    },
+    {
         imageSrc: `${basePath}imgs/head/spacejetpack.png`,
         stats: { deff: 2, damage: 2, krit: 2 },
         upg: 'hpmin',
