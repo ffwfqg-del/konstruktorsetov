@@ -430,13 +430,6 @@ const items = [
         ru_name: 'Летучий голландец'
     },
     {
-        imageSrc: `${basePath}imgs/shoulder/skadi.webp`,
-        stats: { deff: 4, damage: 4, krit: 24, hpmax: 5, armourmax: 27, neoglysh: 20 },
-        upg: 'deff',
-        yellow: { luck: 2, neoglysh: 8, otrazh: 2 },
-        ru_name: 'Скади'
-    },
-    {
         imageSrc: `${basePath}imgs/head/spacejetpack.png`,
         stats: { deff: 2, damage: 2, krit: 2 },
         upg: 'hpmin',
@@ -535,6 +528,11 @@ const skins = [
         imageSrc: `${basePath}imgs/skins/werewolf.png`,
         yellow: { deff: 2, damage: 2, otrazh: 3, armourmax: 50 },
         ru_name: 'Оборотень'
+    },
+    {
+        imageSrc: `${basePath}imgs/skins/viking.webp`,
+        yellow: { deff: 2, damage: 2, otrazh: 3, armourmax: 50 },
+        ru_name: 'Викинг'
     },
     {
         imageSrc: `${basePath}imgs/skins/sydney.png`,
@@ -727,42 +725,42 @@ var sets = [
             main: 'Нимб 5 звезд',
             stats: 'Маркер dead inside',
             yellow: 'Нимб кольца всевластия',
-            zatochka: 14,
+            zatochka: 13,
             nashivka: 'darkness'
         },
         face: {
             main: null,
             stats: 'Анимированные очки Netrunner',
             yellow: 'Энерго маска Госта',
-            zatochka: 14,
+            zatochka: 13,
             nashivka: 'monster'
         },
         hand: {
             main: null,
             stats: 'Молот «Duff»',
             yellow: 'Энергетические часы',
-            zatochka: 14,
+            zatochka: 13,
             nashivka: 'energy'
         },
         breast: {
             main: null,
             stats: 'Энергетический махинатор',
             yellow: null,
-            zatochka: 14,
+            zatochka: 13,
             nashivka: 'damage'
         },
         shoulder: {
             main: null,
             stats: 'Энергетический воздушный шар',
             yellow: 'Аркана ИО',
-            zatochka: 14,
+            zatochka: 13,
             nashivka: 'damage'
         },
         spine: {
             main: null,
             stats: 'Молот Тора',
             yellow: 'Батлфьюри',
-            zatochka: 14,
+            zatochka: 13,
             nashivka: 'damage'
         },
         armour: {
@@ -784,37 +782,37 @@ var sets = [
         head: {
             stats: 'Маркер dead inside',
             yellow: 'Нимб кольца всевластия',
-            zatochka: 14,
+            zatochka: 13,
             nashivka: 'damage'
         },
         face: {
             stats: 'Анимированные очки Netrunner',
             yellow: 'Энерго маска Госта',
-            zatochka: 14,
+            zatochka: 13,
             nashivka: 'damage'
         },
         hand: {
             stats: 'Молот «Duff»',
             yellow: 'Энергетические часы',
-            zatochka: 14,
+            zatochka: 13,
             nashivka: 'energy'
         },
         breast: {
             stats: 'Энергетический махинатор',
             yellow: null,
-            zatochka: 14,
+            zatochka: 13,
             nashivka: 'damage'
         },
         shoulder: {
             stats: 'Энергетический воздушный шар',
             yellow: 'Аркана ИО',
-            zatochka: 14,
+            zatochka: 13,
             nashivka: 'damage'
         },
         spine: {
             stats: 'Молот Тора',
             yellow: 'Батлфьюри',
-            zatochka: 14,
+            zatochka: 13,
             nashivka: 'damage'
         },
         armour: {
@@ -1618,6 +1616,23 @@ function updateStats() {
                 yellow_skin.armourmax = 100;
             }
             
+            // Если выбран скин Фрирен и есть перенос, сохраняем его уникальные характеристики + остальные от переносимого скина
+            if (selectedSkin.ru_name === 'Фрирен' && selectedSkinYellowTransfer) {
+                yellow_skin = { ...selectedSkinYellowTransfer }; // Берем все характеристики от переносимого скина
+                // Сохраняем уникальные характеристики Фрирен (оба зависят от заточки)
+                yellow_skin.neoglysh = selectedSkinYellowTransfer.neoglysh || 0; // Избежать оглушения из заточки
+                yellow_skin.opyan = selectedSkinYellowTransfer.opyan || 0; // Опьянение из заточки
+            }
+            
+            // Если выбран скин с +50 брони и перенос с Рилай/аналога, берем все статы от Рилай + только +50 брони
+            if ((selectedSkin.ru_name === 'Космический Фермер' || 
+                 selectedSkin.ru_name === 'Оборотень' || selectedSkin.ru_name === 'Викинг') && 
+                selectedSkinYellowTransfer && 
+                (selectedSkinYellowTransfer.damage === 2 && selectedSkinYellowTransfer.hpmax === 5 && selectedSkinYellowTransfer.oglysh === 5)) {
+                yellow_skin = { ...selectedSkinYellowTransfer }; // Берем все характеристики от Рилай
+                yellow_skin.armourmax = 50; // Добавляем только +50 брони от основного скина
+            }
+            
             deff += yellow_skin.deff || 0;
             hpmin += yellow_skin.hpmin || 0;
             damage += yellow_skin.damage || 0;
@@ -2186,6 +2201,19 @@ function addYellowImages(slotName) {
         modalYellowAccs.removeChild(modalYellowAccs.firstChild);
     }
 
+    // Добавляем Скади только для слота shoulder
+        if (slotName === 'shoulder') {
+            const skadiItem = {
+                imageSrc: `${basePath}imgs/shoulder/skadi.webp`,
+                stats: {},
+                upg: 'deff',
+                yellow: { luck: 2, neoglysh: 8, otrazh: 2 },
+                ru_name: 'Скади',
+                name: 'skadi.webp' // Добавляем свойство name с правильным расширением
+            };
+            itemsForSlot.push(skadiItem);
+        }
+
     itemsForSlot.forEach(item => {
         let statsHtml = document.createElement('div');
         var mainText = document.createElement('div');
@@ -2222,7 +2250,12 @@ function addYellowImages(slotName) {
         }
 
         var img = document.createElement('img');
-        img.src = `${basePath}imgs/${slotName}/${item.name}.png`;
+        // Для Скади используем imageSrc напрямую, для остальных - формируем путь
+        if (item.name && item.name.includes('.webp')) {
+            img.src = item.imageSrc;
+        } else {
+            img.src = `${basePath}imgs/${slotName}/${item.name}.png`;
+        }
         img.style.position = 'relative';
 
         var item_YellowAcs = document.createElement('div')
@@ -2241,7 +2274,12 @@ function addYellowImages(slotName) {
                     mainAcc.dataset.yellow = JSON.stringify(item.yellow);
                     mainAcc.dataset.yellow_name = item.ru_name;
                 }
-                img_temp.src = `${basePath}imgs/${slotName}/${item.name}.png`;
+                // Для Скади используем imageSrc напрямую, для остальных - формируем путь
+                if (item.name && item.name.includes('.webp')) {
+                    img_temp.src = item.imageSrc;
+                } else {
+                    img_temp.src = `${basePath}imgs/${slotName}/${item.name}.png`;
+                }
                 img_temp.className = "yellow-accs"
                 $(`.grid-item#${slotName}`).append(img_temp)
             }
@@ -2510,6 +2548,22 @@ function showSkinPereshiv() {
             if (currentSkinName === 'Альтушка') {
                 transferYellow = { ...transferYellow };
                 transferYellow.armourmax = 100;
+            }
+            
+            // Если выбран скин Фрирен, сохраняем все характеристики от переносимого скина + уникальные Фрирен
+            if (currentSkinName === 'Фрирен') {
+                transferYellow = { ...transferYellow }; // Берем все характеристики от переносимого скина
+                // Сохраняем уникальные характеристики Фрирен (оба зависят от заточки)
+                transferYellow.neoglysh = selectedSkinYellowTransfer.neoglysh || 0; // Избежать оглушения из заточки
+                transferYellow.opyan = selectedSkinYellowTransfer.opyan || 0; // Опьянение из заточки
+            }
+            
+            // Если выбран скин с +50 брони и перенос с Рилай/аналога, сохраняем все статы от Рилай + только +50 брони
+            if ((currentSkinName === 'Космический Фермер' || 
+                 currentSkinName === 'Оборотень' || currentSkinName === 'Викинг') && 
+                (transferYellow.damage === 2 && transferYellow.hpmax === 5 && transferYellow.oglysh === 5)) {
+                transferYellow = { ...transferYellow }; // Берем все характеристики от Рилай
+                transferYellow.armourmax = 50; // Добавляем только +50 брони от основного скина
             }
             
             selectedSkinYellowTransfer = transferYellow;
@@ -3292,6 +3346,8 @@ $(document).ready(function () {
         $('#modalFrirenZatochkaOverlay').fadeOut(200, function () {
             $(this).css('display', 'none');
             updateStats();
+            // Показываем окно переноса скина после выбора заточки Фрирен
+            showSkinPereshiv();
         });
     });
 
@@ -3308,6 +3364,8 @@ $(document).ready(function () {
         $('#modalFrirenZatochkaOverlay').fadeOut(200, function () {
             $(this).css('display', 'none');
             updateStats();
+            // Показываем окно переноса скина после закрытия окна заточки Фрирен
+            showSkinPereshiv();
         });
     });
 
