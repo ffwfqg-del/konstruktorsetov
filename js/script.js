@@ -1622,6 +1622,7 @@ function updateStats() {
                 // Сохраняем уникальные характеристики Фрирен (оба зависят от заточки)
                 yellow_skin.neoglysh = selectedSkinYellowTransfer.neoglysh || 0; // Избежать оглушения из заточки
                 yellow_skin.opyan = selectedSkinYellowTransfer.opyan || 0; // Опьянение из заточки
+                yellow_skin.armourmax = selectedSkin.yellow.armourmax || 50; // Сохраняем +50 брони от Фрирен
             }
             
             // Если выбран скин с +50 брони и перенос с Рилай/аналога, берем все статы от Рилай + только +50 брони
@@ -2556,6 +2557,7 @@ function showSkinPereshiv() {
                 // Сохраняем уникальные характеристики Фрирен (оба зависят от заточки)
                 transferYellow.neoglysh = selectedSkinYellowTransfer.neoglysh || 0; // Избежать оглушения из заточки
                 transferYellow.opyan = selectedSkinYellowTransfer.opyan || 0; // Опьянение из заточки
+                transferYellow.armourmax = selectedSkin.yellow.armourmax || 50; // Сохраняем +50 брони от Фрирен
             }
             
             // Если выбран скин с +50 брони и перенос с Рилай/аналога, сохраняем все статы от Рилай + только +50 брони
