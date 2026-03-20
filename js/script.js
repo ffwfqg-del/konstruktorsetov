@@ -526,17 +526,17 @@ const skins = [
     },
     {
         imageSrc: `${basePath}imgs/skins/werewolf.png`,
-        yellow: { deff: 2, damage: 2, otrazh: 3, armourmax: 50 },
+        yellow: { deff: 2, damage: 2, otrazh: 3, armourmax: 50, krit: 2 },
         ru_name: 'Оборотень'
     },
     {
         imageSrc: `${basePath}imgs/skins/viking.webp`,
-        yellow: { deff: 2, damage: 2, otrazh: 3, armourmax: 50 },
+        yellow: { deff: 2, damage: 2, otrazh: 3, armourmax: 50, krit: 2 },
         ru_name: 'Викинг'
     },
     {
         imageSrc: `${basePath}imgs/skins/montgomery.webp`,
-        yellow: { deff: 2, damage: 2, otrazh: 3, armourmax: 50 },
+        yellow: { deff: 2, damage: 2, otrazh: 3, armourmax: 50, krit: 2 },
         ru_name: 'Монтгомери'
     },
     {
