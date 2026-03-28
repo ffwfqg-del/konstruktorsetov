@@ -2209,17 +2209,30 @@ function addYellowImages(slotName) {
     }
 
     // Добавляем Скади только для слота shoulder
-        if (slotName === 'shoulder') {
-            const skadiItem = {
-                imageSrc: `${basePath}imgs/shoulder/skadi.webp`,
-                stats: {},
-                upg: 'deff',
-                yellow: { krit: 2, neoglysh: 8, otrazh: 2 },
-                ru_name: 'Скади',
-                name: 'skadi.webp' // Добавляем свойство name с правильным расширением
-            };
-            itemsForSlot.push(skadiItem);
-        }
+    if (slotName === 'shoulder') {
+        const skadiItem = {
+            imageSrc: `${basePath}imgs/shoulder/skadi.webp`,
+            stats: {},
+            upg: 'deff',
+            yellow: { luck: 2, krit: 2, neoglysh: 8, otrazh: 2 },
+            ru_name: 'Скади',
+            name: 'skadi.webp' // Добавляем свойство name с правильным расширением
+        };
+        itemsForSlot.push(skadiItem);
+    }
+
+    // Добавляем Энергетический Махинатор только для слота breast
+    if (slotName === 'breast') {
+        const energomahiItem = {
+            imageSrc: `${basePath}imgs/breast/energomahi.png`,
+            stats: { deff: 4, damage: 2, krit: 12, armourmax: 25 },
+            upg: 'damage',
+            yellow: { damage: 2, hpmax: 5 },
+            ru_name: 'Энергетический махинатор',
+            name: 'energomahi' // Убираем .png так как код добавляет его автоматически
+        };
+        itemsForSlot.push(energomahiItem);
+    }
 
     itemsForSlot.forEach(item => {
         let statsHtml = document.createElement('div');
